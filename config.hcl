@@ -4,10 +4,9 @@ listener "tcp" {
   tls_key_file = "/tmp/server-key.pem"
 }
 
-backend "zookeeper" {
-  address = "master.mesos:2181"
-  path = "vault"
-  advertise_addr = "vault.marathon.mesos:8200"
+backend "consul" {
+	address = "127.0.0.1:8500"
+	path = "vault"
+	scheme = "http"
+	advertise_addr = "http://vault.service.consul:8200"
 }
-
-disable_mlock = true
