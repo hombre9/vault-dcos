@@ -10,3 +10,5 @@ backend "consul" {
 	scheme = "http"
 	advertise_addr = "http://vault.service.consul:8200"
 }
+
+disable_mlock = true
