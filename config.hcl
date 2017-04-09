@@ -4,10 +4,12 @@ listener "tcp" {
   tls_key_file = "/tmp/server-key.pem"
 }
 
-backend "zookeeper" {
-  address = "master.mesos:2181"
+backend "etcd" {
+  address  = "http://localhost:2379"
+  etcd_api = "v2"
   path = "vault"
-  advertise_addr = "vault.marathon.mesos:8200"
+  ha_enabled = true
+  redirect_addr = "vault.marathon.mesos:8200"
 }
 
 disable_mlock = true

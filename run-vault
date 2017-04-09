@@ -6,6 +6,11 @@ if [ -z "$VAULT_TLS_KEY" -a -z "$VAULT_TLS_CERT" ]; then
     -subj /CN=*/
   openssl x509 -req -in /tmp/server-csr.pem -out /tmp/server-cert.pem \
     -signkey /tmp/server-key.pem -days 3650
+elif [ test -f "$VAULT_TLS_KEY" && test -f "$VAULT_TLS_CERT" ]; then
+  echo "Symlinking TLS key from VAULT_TLS_KEY"
+  ln -sf $VAULT_TLS_KEY /tmp/server-key.pem
+  echo "Symlinking TLS cert from VAULT_TLS_CERT"
+  ln -sf $VAULT_TLS_CERT /tmp/server-cert.pem
 else
   echo "Writing TLS key from VAULT_TLS_KEY"
   echo $VAULT_TLS_KEY > /tmp/server-key.pem
@@ -13,7 +18,13 @@ else
   echo $VAULT_TLS_CERT > /tmp/server-cert.pem
 fi
 
-if [ ! -z "$VAULT_CONFIG_HCL" ]; then
+if [ -f "$VAULT_CONFIG_HCL" ]; then
+  ln -sf $VAULT_CONFIG_HCL config.hcl
+
+  echo "Wrote vault config.hcl:"
+  cat config.hcl
+  echo
+elif [ ! -z "$VAULT_CONFIG_HCL" ]; then
   echo $VAULT_CONFIG_HCL > config.hcl
 
   echo "Wrote vault config.hcl:"
