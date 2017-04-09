@@ -4,12 +4,11 @@ listener "tcp" {
   tls_key_file = "/tmp/server-key.pem"
 }
 
-backend "etcd" {
+storage "etcd" {
   address  = "http://localhost:2379"
   etcd_api = "v2"
   path = "vault"
-  ha_enabled = true
-  redirect_addr = "vault.marathon.mesos:8200"
 }
 
-disable_mlock = true
+max_lease_ttl = "24h"
+default_lease_ttl = "24h"

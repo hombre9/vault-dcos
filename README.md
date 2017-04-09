@@ -19,7 +19,12 @@ Save the following JSON as `vault.json`:
     "docker": {
       "image": "wallies/vault-dcos:0.7.0",
       "network": "HOST",
-      "forcePullImage": true
+      "forcePullImage": true,
+      "parameters": [
+        { 
+          "key": "cap-add", "value": "IPC_LOCK" 
+        }
+      ]
     }
   },
   "healthChecks": [{
@@ -42,6 +47,8 @@ $ dcos marathon app add vault.json
  * VAULT_TLS_CERT: TLS cert file contents or file
  * VAULT_CONFIG_HCL: HCL config file contents or file
  * VAULT_CONFIG_JSON: JSON config file contents
+ * VAULT_REDIRECT_ADDR: the address (full URL) to advertise to other Vault servers in the cluster for client redirection
+ * ETCD_HA_ENABLED: Enable HA Mode with ETCD Storage backend
 
 ### Step 2: Initialize the vault
 SSH into one of the DCOS cluster nodes, and initialize the vault with the following:

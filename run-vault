@@ -17,26 +17,3 @@ else
   echo "Writing TLS cert from VAULT_TLS_CERT"
   echo $VAULT_TLS_CERT > /tmp/server-cert.pem
 fi
-
-if [ -f "$VAULT_CONFIG_HCL" ]; then
-  ln -sf $VAULT_CONFIG_HCL config.hcl
-
-  echo "Wrote vault config.hcl:"
-  cat config.hcl
-  echo
-elif [ ! -z "$VAULT_CONFIG_HCL" ]; then
-  echo $VAULT_CONFIG_HCL > config.hcl
-
-  echo "Wrote vault config.hcl:"
-  cat config.hcl
-  echo
-fi
-if [ ! -z "$VAULT_CONFIG_JSON" ]; then
-  echo $VAULT_CONFIG_JSON > config.json
-
-  echo "Wrote vault config.json:"
-  cat config.json
-  echo
-fi
-
-exec vault $*
